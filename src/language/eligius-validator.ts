@@ -87,15 +87,6 @@ export class EligiusValidator {
               property: "name",
             }
           );
-        } else if (getRequiredParameterCount(operationMetadata) > 1) {
-          accept(
-            "error",
-            `This operation has more than one required parameter, therefore named parameters are mandatory`,
-            {
-              node: argument,
-              property: "value",
-            }
-          );
         }
       }
     }
