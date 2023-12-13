@@ -1,0 +1,12 @@
+{
+    "projectName": "Eligius",
+    "languages": [{
+        "id": "eligius",
+        "grammar": "src/language/eligius.langium",
+        "fileExtensions": [".epc"],
+        "textMate": {
+            "out": "syntaxes/eligius.tmLanguage.json"
+        }
+    }],
+    "out": "src/language/generated"
+}

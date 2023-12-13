@@ -1,0 +1,73 @@
+{
+  "name": "eligius-dsl",
+  "description": "A DSL and compiler for Eligius presenations",
+  "version": "0.0.1",
+  "files": [
+    "bin"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b tsconfig.json && node esbuild.mjs",
+    "watch": "concurrently -n tsc,esbuild -c blue,yellow \"tsc -b tsconfig.json --watch\" \"node esbuild.mjs --watch\"",
+    "lint": "eslint src --ext ts",
+    "langium:generate": "langium generate && node rewrite-grammar.js",
+    "langium:watch": "langium generate --watch",
+    "vscode:prepublish": "npm run build && npm run lint",
+    "test": "vitest",
+    "vsce": "vsce package --skip-license --no-dependencies"
+  },
+  "dependencies": {
+    "eligius": "1.1.4",
+    "langium": "2.1.3",
+    "ts-morph": "21.0.1",
+    "vitest": "1.0.4",
+    "vscode-languageclient": "9.0.1"
+  },
+  "devDependencies": {
+    "@types/chai": "4.3.11",
+    "@types/node": "20.10.4",
+    "@types/vscode": "1.85.0",
+    "@typescript-eslint/eslint-plugin": "6.14.0",
+    "@typescript-eslint/parser": "6.14.0",
+    "@vscode/vsce": "2.22.0",
+    "chai": "4.3.10",
+    "concurrently": "8.2.2",
+    "esbuild": "0.19.9",
+    "eslint": "8.55.0",
+    "langium-cli": "2.1.0",
+    "typescript": "5.3.3"
+  },
+  "displayName": "eligius-dsl",
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "eligius",
+        "aliases": [
+          "eligius",
+          "eligius"
+        ],
+        "extensions": [
+          ".epc"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "eligius",
+        "scopeName": "source.eligius",
+        "path": "./syntaxes/eligius.tmLanguage.json"
+      }
+    ]
+  },
+  "repository": {
+    "url": "https://www.github.com/rolandzwaga/eligius-dsl"
+  },
+  "main": "./out/extension/main.cjs"
+}
