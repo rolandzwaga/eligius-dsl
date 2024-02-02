@@ -1,10 +1,10 @@
 import { ConfigurationFactory, EndableActionCreator, metadata } from "eligius";
 import type {IOperationMetadata} from "eligius/metadata";
 import type { ActionCreator, IActionConfiguration, IEndableActionConfiguration, TLanguageCode, TOperationData, TimelineActionCreator, TimelineTypes } from "eligius";
-import { Action, ActionTemplate, AnimationProvider, Condition, EventAction, ForEach, NamedArgument, Operation, OperationKinds, Otherwise, Presentation, TimeLine, TimeLineAction, When, isForEach, isOperation, isWhen, reflection } from "../language/generated/ast.js";
+import { Action, ActionOperation, ActionTemplate, AnimationProvider, Condition, EventAction, ForEach, NamedArgument, Operation, OperationKinds, Otherwise, Presentation, TimeLine, TimeLineAction, When, isActionOperation, isForEach, isOperation, isWhen, reflection } from "../language/generated/ast.js";
 
 const PresentationVisitor = (node: Presentation, factory: ConfigurationFactory) => {
-  factory.init(node.language as TLanguageCode).setLayoutTemplate(node.layout).setContainerSelector(node.container);
+  factory.init(node.language.ref!.code as TLanguageCode).setLayoutTemplate(node.layout).setContainerSelector(node.container);
 
   if (node.engine) {
     factory.setEngine(node.engine);
@@ -38,6 +38,8 @@ const operationSwitcher = (addOperation: AddSimpleOperationFactory) => (nd: Oper
   } else if (isForEach(nd)) {
     visitors[`${nd.$type}Visitor`](nd, addOperation);
   } else if (isWhen(nd)) {
+    visitors[`${nd.$type}Visitor`](nd, addOperation);
+  } else if (isActionOperation(nd)) {
     visitors[`${nd.$type}Visitor`](nd, addOperation);
   }
 };
@@ -84,6 +86,11 @@ const OperationVisitor = (node: Operation, factory: AddSimpleOperationFactory) =
   factory(node.systemName, operationData);
 };
 
+const ActionOperationVisitor = (node: ActionOperation, factory: AddSimpleOperationFactory) => {
+  //const actionTemplate = node.systemName.ref!;
+
+}
+
 const NamedArgumentVisitor = (node: NamedArgument, _metadata: IOperationMetadata<unknown>) => {
   return {[node.name]: node.value};
 }
@@ -125,7 +132,8 @@ const visitors = {
   ActionTemplateVisitor,
   EventActionVisitor,
   TimeLineVisitor,
-  TimeLineActionVisitor
+  TimeLineActionVisitor,
+  ActionOperationVisitor
 };
 
 export class EpcJsonCompiler {

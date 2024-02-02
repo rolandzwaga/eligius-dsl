@@ -1,12 +1,12 @@
 grammar Eligius
 
 entry Presentation:
-    ('engine:' engine=NAME)?
     (providers+=(AnimationProvider)+)
     ('container:' container=SELECTOR)
-    ('language:' language=LANG)
+    ('language:' language=[Language:NAME])
     ('layout:' layout=NAME)
     ('languages:' (languages+=Language (',' languages+=Language)*)?)
+    ('engine:' engine=NAME)?
     ('initialisation:' initActions+=(Action)*)?
     ('actions:' actions+=(ActionTemplate)*)?
     ('eventActions:' eventActions+=(EventAction)*)?
@@ -71,12 +71,12 @@ terminal GTE: '>=';
 terminal LTE: '<=';
 terminal GT: '>';
 terminal LT: '<';
+terminal LANG: /[a-z]{2}-[A-Z]{2}/;
 terminal OPERATION_NAME: /[a-z][a-zA-Z]+/;
 terminal BOOL_TRUE returns boolean: /true\b/;
 terminal BOOL_FALSE returns boolean: /false\b/;
 terminal PROPER_NAME: /[A-Z][a-zA-Z0-9_]+/;
 terminal STRING: /\"[^\"]+\"/;
-terminal LANG: /[a-z]{2}-[A-Z]{2}/;
 terminal NAME: /[a-zA-Z0-9\-_]+/;
 terminal NUMBER returns number: /[0-9]+/;
 terminal SELECTOR: /\.|\#[\[\]\-a-zA-Z0-9\=]+/;

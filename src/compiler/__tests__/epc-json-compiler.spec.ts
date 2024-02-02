@@ -39,4 +39,8 @@ initialisation:
 			forEach items
 				selectElement(selector=current)
 			endEach
+actions:
+	CreateImage():
+		start:
+		end:
 timelines:`;
