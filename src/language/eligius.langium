@@ -3,10 +3,10 @@ grammar Eligius
 entry Presentation:
     (providers+=(AnimationProvider)+)
     ('container:' container=SELECTOR)
-    ('language:' language=[Language:NAME])
-    ('layout:' layout=NAME)
+    ('language:' language=LANG)
+    ('layout:' layout=(NAME|PROPER_NAME))
     ('languages:' (languages+=Language (',' languages+=Language)*)?)
-    ('engine:' engine=NAME)?
+    ('engine:' engine=PROPER_NAME)?
     ('initialisation:' initActions+=(Action)*)?
     ('actions:' actions+=(ActionTemplate)*)?
     ('eventActions:' eventActions+=(EventAction)*)?
