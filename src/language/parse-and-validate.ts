@@ -1,5 +1,5 @@
-import type { AstNode, AstNodeDescription, CstNode, DiagnosticInfo, LangiumDocument, LangiumServices, Linker, LinkingError, Reference, ReferenceInfo, ValidationAcceptor, ValidationOptions } from "langium";
-import { DefaultLexer, DefaultTokenBuilder, DefaultValueConverter, LangiumParserErrorMessageProvider, ValidationRegistry, createLangiumParser, getDiagnosticRange, streamAst, toDiagnosticSeverity } from "langium";
+import type { AstNode, AstNodeDescription, CstNode, DiagnosticInfo, LangiumDocument, Linker, LinkingError, Reference, ReferenceInfo, ValidationAcceptor, ValidationOptions } from "langium";
+import { DefaultLexer, DefaultTokenBuilder, DefaultValueConverter, LangiumParserErrorMessageProvider, ValidationRegistry, createLangiumParser, getDiagnosticRange, toDiagnosticSeverity } from "langium";
 import { EligiusValidator, createChecks } from "./eligius-validator.js";
 import { preprocessAstNodeObject } from "./preprocess.js";
 import type { Diagnostic } from "vscode-languageserver";
@@ -7,6 +7,8 @@ import type { Diagnostic } from "vscode-languageserver";
 import type { IRecognitionException } from "chevrotain"; //Need to reference this in order to infer the result for the parseAndValidate method
 import { EligiusGrammar } from "./generated/grammar.js";
 import { EligiusAstReflection, Presentation } from "./generated/ast.js";
+import { LangiumServices } from "langium/lsp";
+import {AstUtils } from "langium";
 
 class EmptyLinker implements Linker {
     link(_document: LangiumDocument, _cancelToken?: any): Promise<void> {
@@ -76,7 +78,7 @@ async function validateAst(rootNode: AstNode, options: ValidationOptions, source
         validationItems.push(toDiagnostic(severity, message, info, source));
     };
 
-    await Promise.all(streamAst(rootNode).map(async node => {
+    await Promise.all(AstUtils.streamAst(rootNode).map(async node => {
         const checks = validationRegistry.getChecks(node.$type, options.categories);
         for (const check of checks) {
             await check(node, acceptor, cancelToken as any);

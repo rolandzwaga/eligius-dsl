@@ -1,14 +1,5 @@
-import type {
-  DefaultSharedModuleContext,
-  LangiumServices,
-  LangiumSharedServices,
-  Module,
-  PartialLangiumServices,
-
-} from "langium";
 import {
-  createDefaultModule,
-  createDefaultSharedModule,
+  Module,
   inject,
 } from "langium";
 import {
@@ -21,6 +12,7 @@ import {
 } from "./generated/module.js";
 import { EligiusCompletionProvider } from "./eligius-completion-provider.js";
 import { EligiusDocumentationProvider } from "./eligius-documentation-provider.js";
+import { DefaultSharedModuleContext, LangiumServices, LangiumSharedServices, PartialLangiumServices, createDefaultModule, createDefaultSharedModule } from "langium/lsp";
 
 
 /**

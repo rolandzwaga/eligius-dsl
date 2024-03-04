@@ -1,9 +1,11 @@
-import { findLeafNodeAtOffset, type CompletionProvider, type LangiumDocument, type MaybePromise, type CompletionProviderOptions, type LeafCstNode } from "langium";
+import { type LangiumDocument, type MaybePromise, type LeafCstNode } from "langium";
+import {CstUtils } from "langium";
 import type { CancellationToken, CompletionParams } from "vscode-languageserver";
 import { CompletionList } from "vscode-languageserver";
 import { Operation } from "./generated/ast.js";
 import { metadata } from "eligius";
 import { getMetadataDescription } from "./eligius-documentation-provider.js";
+import { CompletionProvider, CompletionProviderOptions } from "langium/lsp";
 
 const operationNames = Object.keys(metadata).filter(
     (x) =>
@@ -30,7 +32,7 @@ export class EligiusCompletionProvider implements CompletionProvider {
 
       console.log('cst', cst);
 
-      const leaf = findLeafNodeAtOffset(cst, offset);
+      const leaf = CstUtils.findLeafNodeAtOffset(cst, offset);
       if (!leaf) {
         return undefined;
       }
