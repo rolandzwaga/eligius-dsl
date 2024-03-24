@@ -23,18 +23,18 @@
     "vscode-languageclient": "9.0.1"
   },
   "devDependencies": {
-    "@types/chai": "4.3.12",
-    "@types/node": "20.11.28",
+    "@types/chai": "4.3.14",
+    "@types/node": "20.11.30",
     "@types/vscode": "1.87.0",
-    "@typescript-eslint/eslint-plugin": "7.2.0",
-    "@typescript-eslint/parser": "7.2.0",
+    "@typescript-eslint/eslint-plugin": "7.3.1",
+    "@typescript-eslint/parser": "7.3.1",
     "@vscode/vsce": "2.24.0",
     "chai": "5.1.0",
     "concurrently": "8.2.2",
     "esbuild": "0.20.2",
     "eslint": "8.57.0",
     "langium-cli": "3.0.1",
-    "typescript": "5.4.2",
+    "typescript": "5.4.3",
     "vitest": "1.4.0"
   },
   "displayName": "eligius-dsl",

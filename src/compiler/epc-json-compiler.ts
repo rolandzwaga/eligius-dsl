@@ -4,7 +4,9 @@ import type { ActionCreator, IActionConfiguration, IEndableActionConfiguration, 
 import { Action, ActionOperation, ActionTemplate, AnimationProvider, Condition, EventAction, ForEach, NamedArgument, Operation, OperationKinds, Otherwise, Presentation, TimeLine, TimeLineAction, When, isActionOperation, isForEach, isOperation, isWhen, reflection } from "../language/generated/ast.js";
 
 const PresentationVisitor = (node: Presentation, factory: ConfigurationFactory) => {
-  factory.init(node.language as TLanguageCode).setLayoutTemplate(node.layout).setContainerSelector(node.container);
+  if (node.language.ref) {
+    factory.init(node.language.ref.code as TLanguageCode).setLayoutTemplate(node.layout).setContainerSelector(node.container);
+  }
 
   if (node.engine) {
     factory.setEngine(node.engine);

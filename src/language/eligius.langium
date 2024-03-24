@@ -25,13 +25,16 @@ TimeLineAction:
     name=NAME ':' uri=[TimeLine:NAME] start=NUMBER end=NUMBER? ActionImpl;
 
 ActionTemplate:
-    name=PROPER_NAME ':' ActionImpl;
+    name=PROPER_NAME ActionArguments ':' ActionImpl;
 
 Action:
     name=PROPER_NAME ':' ActionImpl;
 
 fragment ActionImpl:
-     'start:' startOperations+=OperationKinds* 'end:' endOperations+=OperationKinds*;
+     'start:' startOperations+=(OperationKinds)* 'end:' endOperations+=(OperationKinds)*;
+
+fragment ActionArguments:
+    '(' (arguments+=NamedArgument (',' arguments+=NamedArgument)*)* ')';
 
 EventAction:
     name=PROPER_NAME ':' 'name' eventName=NAME 'topic'? eventTopic=NAME? startOperations+=OperationKinds*;
@@ -40,10 +43,10 @@ OperationKinds:
     ActionOperation|Operation|ForEach|When;
 
 Operation:
-    systemName=OPERATION_NAME '(' (arguments+=NamedArgument (',' arguments+=NamedArgument)*)* ')';
+    systemName=NAME ActionArguments;
 
 ActionOperation:
-    systemName=[ActionTemplate:PROPER_NAME] '(' (arguments+=NamedArgument (',' arguments+=NamedArgument)*)* ')';
+    systemName=[ActionTemplate:PROPER_NAME] ActionArguments;
 
 NamedArgument:
     name=NAME EQUALS value=(STRING|NUMBER|NAME|SELECTOR|BOOL_TRUE|BOOL_FALSE|PROPER_NAME);
@@ -72,12 +75,11 @@ terminal LTE: '<=';
 terminal GT: '>';
 terminal LT: '<';
 terminal LANG: /[a-z]{2}-[A-Z]{2}/;
-terminal OPERATION_NAME: /[a-z][a-zA-Z]+/;
 terminal BOOL_TRUE returns boolean: /true\b/;
 terminal BOOL_FALSE returns boolean: /false\b/;
 terminal PROPER_NAME: /[A-Z][a-zA-Z0-9_]+/;
-terminal STRING: /\"[^\"]+\"/;
 terminal NAME: /[a-zA-Z0-9\-_]+/;
+terminal STRING: /\"[^\"]+\"/;
 terminal NUMBER returns number: /[0-9]+/;
 terminal SELECTOR: /\.|\#[\[\]\-a-zA-Z0-9\=]+/;
 terminal DURATION: /duration\b/;
