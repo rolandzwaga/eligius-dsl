@@ -30,9 +30,9 @@ export class EligiusCompletionProvider implements CompletionProvider {
       const textDocument = document.textDocument;
       const offset = textDocument.offsetAt(params.position);
 
-      console.log('cst', cst);
-
       const leaf = CstUtils.findLeafNodeAtOffset(cst, offset);
+      console.log('leaf', leaf!.astNode.$type);
+
       if (!leaf) {
         return undefined;
       }
